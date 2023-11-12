@@ -1,0 +1,7 @@
+#!/bin/bash
+#En este archivo se hara el respaldo de los archivos home root ssh, el archivo bashrc, el esqueleto y la base de datos
+
+tar -czf respaldo.tgz /home /root /etc/ssh /etc/bashrc /etc/skel /etc/passwd /etc/group bdsistema.sql 
+rsync respaldo.tgz /home/respaldo.tgz 
+
+   

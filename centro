@@ -1,0 +1,201 @@
+
+
+altas_usuarios () { 
+sudo useradd $user
+echo "Se ha agregado al usuario "$user"" 
+read -p Presione cualquier tecla para volver al menu
+} 
+
+bajas_usuarios () { 
+sudo userdel $user
+echo "Se ha eliminado al usuario "$user"" 
+read -p Presione cualquier tecla para volver al menu
+} 
+
+modificaciones_usuarios () { 
+sudo usermod $user 
+echo "Se han desplegado todas las opciones de modificacion para el usuario" 
+read -p Presione cualquier tecla para volver al menu
+} 
+
+altas_grupos () { 
+sudo groupadd $grupo
+echo "Se ha agregado el grupo "$grupo"" 
+read -p Presione cualquier tecla para volver al menu
+} 
+
+modificaciones_grupos () { 
+sudo groupmod $grupo 
+echo "Se han desplegado todas las opciones de modificacion para el grupo"
+read -p Presione cualquier tecla para volver al menu
+} 
+
+
+op=1;
+while [ $op -ne 0 ] 
+do 
+echo "¿Que desea realizar?" 
+echo "1.Altas usuarios" 
+echo "2.Bajas usuarios" 
+echo "3.Modificaciones usuarios" 
+echo "4.Altas grupos" 
+echo "5.Bajas grupos" 
+echo "6.Modificaciones grupos"
+echo "7.Realizar un respaldo manual"
+echo "8.Gestion de redes"
+echo "9.Gestion de procesos"      
+echo "0.Salir" 
+read op 
+case $op in 
+1) 
+echo "/ALTAS USUARIOS/" 
+echo "Ingrese nombre del usuario a agregar" 
+read user 
+altas_usuarios $user
+;;
+2) 
+echo "/BAJAS USUARIOS/" 
+echo "Ingrese nombre del usuario a eliminar" 
+read user 
+bajas_usuarios $user
+;; 
+3) 
+echo "/MODIFICACIONES USUARIOS/" 
+echo "Ingrese nombre del usuario a modificar" 
+read user 
+modificaciones_usuarios $user 
+;; 
+4) 
+echo "/ALTAS GRUPOS/" 
+echo "Ingrese nombre del grupo a agregar" 
+read grupo 
+altas_grupos $grupo 
+;; 
+5) 
+echo "/BAJAS GRUPOS/" 
+echo "Ingrese nombre del grupo a eliminar" 
+read grupo 
+bajas_grupos $grupo 
+;;
+6) 
+echo "/MODIFICACIONES GRUPOS/" 
+echo "Ingrese nombre del grupo a modificar" 
+read grupo 
+modificaciones_grupos $grupo
+;;
+7) 
+echo "¿Que desea respaldar" 
+echo "1.Respaldar todo" 
+echo "2.Respaldar /home" 
+echo "3.Respaldar /root" 
+echo "4.Respaldar /etc/bashrc" 
+echo "5.Respaldar /etc/skel" 
+echo "6.Respaldar /etc/passwd"
+echo "7.Respaldar /etc/shadow"
+echo "8.Respaldar /etc/group" 
+echo "9.Respaldar /etc/ssh"  
+read op
+case $op in 
+1)
+clear 
+sudo sh backup
+echo "Se ha respaldado todo con exito" 
+read -p Presione cualquier tecla para volver al menu
+;;
+2) 
+clear
+rsync /home /home/respaldo/dirhome
+echo "Se ha respaldado /home con exito" 
+read -p Presione cualquier tecla para volver al menu
+;;
+3) 
+clear
+rsync /root /home/respaldo/root
+echo "Se ha respaldado /root con exito" 
+read -p Presione cualquier tecla para volver al menu
+;;
+4) 
+clear
+rsync /etc/bashrc /home/respaldo/etc/bashrc
+echo "Se ha respaldado /etc/bashrc con exito" 
+read -p Presione cualquier tecla para volver al menu
+;;
+5)
+clear 
+rsync /etc/skel /home/respaldo/etc/skel
+echo "Se ha respaldado /etc/skel con exito" 
+read -p Presione cualquier tecla para volver al menu
+;;
+6)
+clear 
+rsync /etc/passwd /home/respaldo/etc/passwd
+echo "Se ha respaldado el archivo /etc/passwd con exito" 
+read -p Presione cualquier tecla para volver al menu 
+;;
+7)
+clear 
+rsync /etc/shadow /home/respaldo/etc/shadow
+echo "Se ha respaldado el archivo /etc/shadow con exito" 
+read -p Presione cualquier tecla para volver al menu 
+;;
+8)
+clear
+rsync /etc/group /home/respaldo/etc/group
+echo "Se ha respaldado el archivo /etc/group con exito" 
+read -p Presione cualquier tecla para volver al menu 
+;;
+9)
+clear
+rsync /etc/ssh /home/respaldo/etc/ssh 
+echo "Se ha respaldado el archivo /etc/ssh con exito" 
+read -p Presione cualquier tecla para volver al menu
+;;
+esac
+;; 
+8)
+clear
+echo "Gestion de red" 
+echo "¿Que desea hacer?" 
+echo "1.Mostrar perfiles de conexion"
+echo "2.Ver estado de conectividad de red" 
+read op 
+case $op in 
+1) 
+clear 
+echo "Se estan mostrando los perfiles de conexion" 
+nmcli connection show
+read -p Presione cualquier tecla para volver al menu
+;; 
+2)
+clear
+echo "Se esta mostrando el estado de conectividad de la red" 
+nmcli networking connectivity check
+read -p Presione cualquier tecla para volver al menu 
+;;
+esac
+;;
+9) 
+clear 
+echo "Gestion de procesos"
+echo "¿Que desea hacer?" 
+echo "1.Mostrar procesos de la terminal actual"
+echo "2.Matar un proceso determinado"
+read op
+case $op in 
+1) 
+clear 
+echo "Se estan mostrando los procesos de la terminal actual" 
+ps -a 
+read -p "Presione cualquier tecla para volver al menu principal"
+;; 
+2) 
+clear
+echo "Ingresa el pid del proceso a matar" 
+read pid
+kill $pid
+read -p Presione cualquier tecla para volver al menu 
+;;
+esac
+;;
+esac 
+done
